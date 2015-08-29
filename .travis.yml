@@ -1,0 +1,31 @@
+sudo: required
+
+language: bash
+
+services:
+  - docker
+
+install:
+  - docker build -t quay.io/${TRAVIS_REPO_SLUG:0:6}/${TRAVIS_REPO_SLUG:14}:${TRAVIS_COMMIT:0:7} .
+
+script:
+  - "/bin/true"
+
+before_deploy:
+  - docker login -e . -p "${QUAY_PASSWORD}" -u "${QUAY_USER}" quay.io
+
+deploy:
+  - provider: script
+    script: ".travis/deploy.sh"
+    on:
+      repo: azavea/docker-windshaft
+      branch: develop
+  - provider: script
+    script: ".travis/deploy.sh"
+    on:
+      repo: azavea/docker-windshaft
+      tags: true
+
+notifications:
+  slack:
+    secure: N36971Aewdhx3Is/GjZDI3+3nULY4HG2TGjAqFYyDFfabxv5TKVagjeELpjqCAdnO3nCBlVpOm3H3uiX/eEXOMAHMPM3OFoit9n2xooD/st1lq3r7O1L0cT0dROJSfQ09aodipQtdb/ZO3xE47VRN0dIto2amcD8vZkFDVkXXfAWBQtNtHWfJ/8r4tRgy7mwIoORYYQCbqJI2Iqx+I9pmCQs7MD3PUy9IwuKwINt98csqaVqxbYtQfKYBhhgLs48XYpo79lbZ5PpEBbC7iHpLPy2Lk4t9QHwNh2BG1oCKYEBMV6KNzSnqCYfOf+lgW3SOYWK/QGse4sakWXi5o7tCRn0fYMy1M4mpPNFAf45AynITkS/iiUa3QDBtwC92mL553XJECUG0yVh99/rxXLM/CBJXT4sp1Kl7KSE65hcj4OzbGTQfGq7/hktGst3H1GidsGC82LToEQgudokhyVoOJrrkg2XEuI5Z21UONB3vSE0uqNB/pDghcSe5h96xRhrWPWMe9j2qNI8FfgFVug2fiVpQ2KNCGaPUrdzM/YzS48X6iBittdTNYrAuiPmexS2eCS+yufgp+H1FYe0Jg8Yo0TPUSq1Ynq82kZOnWybG5Uov2QQjW7a1nkn3pt0i9nAiJpcZeZBNKZZreFG2BjB1FwIjIl4toEddR9qlFZKjKg=
