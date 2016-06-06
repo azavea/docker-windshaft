@@ -10,14 +10,12 @@ A `Dockerfile` based off of [`node:0.10-slim`](https://registry.hub.docker.com/_
 First, build the container:
 
 ```bash
-$ docker build -t azavea/windshaft .
+$ docker build -t quay.io/azavea/windshaft:latest .
 ```
 
 From there you can run a container with:
 
 ```bash
-$ docker run \
-    --rm \
-    --volume ${PWD}/server.js:/opt/windshaft/server.js \
-    azavea/windshaft server.js
+$ docker run --rm -v ${PWD}/server.js:/opt/windshaft/server.js \
+    quay.io/azavea/windshaft:latest server.js
 ```

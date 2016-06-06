@@ -2,7 +2,14 @@ FROM node:0.10-slim
 
 MAINTAINER Azavea <systems@azavea.com>
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+ENV WINDSHAFT_VERSION 0.36.0
+
+RUN mkdir -p /opt/windshaft
+
+WORKDIR /opt/windshaft
+
+RUN set -ex \
+  && buildDeps=' \
     build-essential \
     git-core \
     libcairo2-dev \
@@ -10,14 +17,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libjpeg62-turbo-dev \
     libgif-dev \
     libpq-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN mkdir -p /opt/windshaft
-WORKDIR /opt/windshaft
-COPY . /opt/windshaft
-
-# NB: the most recent versions do not work with the provided configurations
-RUN npm install --unsafe-perm windshaft@0.36.0
+	' \
+  && apt-get update && apt-get install -y ${buildDeps} --no-install-recommends \
+  && rm -rf /var/lib/apt/lists/* \
+  && npm install --unsafe-perm windshaft@${WINDSHAFT_VERSION} \
+  && apt-get purge -y --auto-remove ${buildDeps}
 
 EXPOSE 5000
 
