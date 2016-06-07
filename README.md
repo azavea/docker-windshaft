@@ -13,9 +13,9 @@ First, build the container:
 $ docker build -t quay.io/azavea/windshaft:latest .
 ```
 
-From there you can run a container with:
+From there, assuming you have a local Windshaft server at `server/server.js`, you can run a container with:
 
 ```bash
-$ docker run --rm -v ${PWD}/server.js:/opt/windshaft/server.js \
-    quay.io/azavea/windshaft:latest server.js
+$ docker run --rm -v ${PWD}/server:/opt/windshaft/server/ \
+    quay.io/azavea/windshaft:latest server/server.js
 ```
