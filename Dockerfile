@@ -17,8 +17,14 @@ RUN set -ex \
     libjpeg62-turbo-dev \
     libgif-dev \
     libpq-dev \
-	' \
-  && apt-get update && apt-get install -y ${buildDeps} --no-install-recommends \
+    ' \
+  && deps=' \
+    libcairo2 \
+    libgif4 \
+    libjpeg62-turbo \
+    libpixman-1-0 \
+    ' \
+  && apt-get update && apt-get install -y ${buildDeps} ${deps} --no-install-recommends \
   && rm -rf /var/lib/apt/lists/* \
   && npm install --unsafe-perm windshaft@${WINDSHAFT_VERSION} \
   && apt-get purge -y --auto-remove ${buildDeps}
