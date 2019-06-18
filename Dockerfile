@@ -1,8 +1,8 @@
-FROM node:0.10-slim
+FROM node:10-slim
 
 MAINTAINER Azavea <systems@azavea.com>
 
-ENV WINDSHAFT_VERSION 0.36.0
+ENV WINDSHAFT_VERSION 5.2.1
 
 RUN mkdir -p /opt/windshaft
 
@@ -11,6 +11,7 @@ WORKDIR /opt/windshaft
 RUN set -ex \
   && buildDeps=' \
     build-essential \
+    python \
     git-core \
     libcairo2-dev \
     libpango1.0-dev \
@@ -20,7 +21,7 @@ RUN set -ex \
     ' \
   && deps=' \
     libcairo2 \
-    libgif4 \
+    libgif7 \
     libjpeg62-turbo \
     libpixman-1-0 \
     ' \
